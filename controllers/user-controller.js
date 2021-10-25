@@ -3,6 +3,7 @@ const { User } = require('../models');
 const userController = {
     getAllUsers(req, res) {
         User.find({})
+            .select('-__v')
             .then(dbUserData => res.json(dbUserData))
             .catch(err =>{
                 console.log(err);
@@ -11,6 +12,7 @@ const userController = {
     },
     getUserById ({ params }, res) {
         User.findOne( {_id: params.id})
+            .select('-__v')
             .then(dbUserData => res.json(dbUserData))
             .catch(err =>{
                 console.log(err);
@@ -42,7 +44,27 @@ const userController = {
         User.findOneAndDelete({ _id: params.id })
             .then(dbUserData => res.json(dbUserData))
             .catch(err => res.status(400).json(err));
-    }
+    },
+
+    createFriend({ params }, res){
+        User.findOneAndUpdate(
+            { _id: params.userId},
+            { $push: {friends: params.friendId } },
+            {new: true}
+        )
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => res.status(400).json(err));
+    },
+    
+    deleteFriend({ params }, res){
+        User.findOneAndUpdate(
+            { _id: params.userId},
+            { $pull: {friends: params.friendId } },
+            {new: true}
+        )
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => res.status(400).json(err));
+    },
 };
 
 module.exports = userController;
