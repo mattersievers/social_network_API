@@ -4,6 +4,7 @@ const thoughtController = {
     
     getAllThoughts(req, res) {
         Thought.find({})
+        .select('-__v')
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err =>{
             console.log(err);
@@ -12,7 +13,8 @@ const thoughtController = {
     },    
 
     getThoughtById({ params }, res) {
-        Thought.findOne( { _id: params.id})
+        Thought.findOne( { _id: params.thoughtId})
+        .select('-__v')
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err =>{
             console.log(err);
