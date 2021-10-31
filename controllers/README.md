@@ -20,6 +20,7 @@
   
   ## Use
   Initiate the server with the command 'npm start'. The routes may be tested in a program such as Insomnia.
+  [Video Walkthrough of Routes](https://watch.screencastify.com/v/dzdVxTsSYnTSyqfajuHB)
   
   ## License
   No license.
